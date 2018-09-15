@@ -67,8 +67,6 @@ begin
 
       Reset(ArqEmp);
       nreg := 0;
-
-      //ListaEmp
       mmo1.Clear;
       ListaEmp.Clear;
 
@@ -88,8 +86,6 @@ begin
 
         if CheckBox1.Checked then
            mmo1.Lines.Add(IntToStr( Emp.id) + ' - ' + Emp.IE + ' - ' + Emp.CNPJ);
-       // CloseFile(ArqEmp);
-       // Append(ArqEmp);
       end;
 
       if not CheckBox1.Checked then
@@ -106,8 +102,6 @@ begin
 
       Reset(ArqSefaz);
       nreg1 := 0;
-
-      //ListaEmp
       mmo2.Clear;
       ListaSefaz.Clear;
 
@@ -126,24 +120,18 @@ begin
 
          if CheckBox1.Checked then
             mmo2.Lines.Add(Sefaz.IE + ' - ' + Sefaz.CNPJ);
-       // CloseFile(ArqEmp);
-       // Append(ArqEmp);
       end;
 
       if not CheckBox1.Checked then
       ShowMessage('carregou todos sefaz');
 
   end).Start;
-
-
-
-
 end;
 
 procedure TForm1.Button1Click(Sender: TObject);
 begin
 
-  TThread.CreateAnonymousThread( procedure
+  TThread.CreateAnonymousThread(procedure
   var i,k : Integer;
   begin
       k:= 1;
@@ -171,7 +159,7 @@ begin
         inc(l);
         if j = 14000  then ShowMessage('termino arqSefaz');
       end;
-      Closefile(ArqSefaz); //fecha o handle de arquivo
+      Closefile(ArqSefaz);
   end).Start;
 
 end;
