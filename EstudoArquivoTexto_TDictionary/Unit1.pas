@@ -85,7 +85,7 @@ begin
         ListaEmp.add(Emp.id,emp);
 
         if CheckBox1.Checked then
-           mmo1.Lines.Add(IntToStr( Emp.id) + ' - ' + Emp.IE + ' - ' + Emp.CNPJ);
+           mmo1.Lines.Add(Emp.id.ToString + ' - ' + Emp.IE + ' - ' + Emp.CNPJ);
       end;
 
       if not CheckBox1.Checked then
@@ -137,11 +137,11 @@ begin
       k:= 1;
       AssignFile(ArqEmp,'c:\\texto\arqEmp.txt');
       Rewrite(ArqEmp);
-      for i := 0 to 5000 do
+      for i := 0 to 1500000 do
       begin
         Writeln(ArqEmp,'i',k,';','c',k+10);
         inc(k);
-        if i = 5000  then ShowMessage('termino arqEmp');
+        if i = 1500000  then ShowMessage('termino arqEmp');
       end;
       Closefile(ArqEmp); //fecha o handle de arquivo
   end).Start;
@@ -153,11 +153,11 @@ begin
      l := 1;
      AssignFile(ArqSefaz,'c:\\texto\arqSefaz.txt');
      Rewrite(ArqSefaz);
-      for j := 0 to 14000 do
+      for j := 0 to 1500000 do
       begin
         Writeln(ArqSefaz,'i',l,';','c',l+10 );
         inc(l);
-        if j = 14000  then ShowMessage('termino arqSefaz');
+        if j = 1500000  then ShowMessage('termino arqSefaz');
       end;
       Closefile(ArqSefaz);
   end).Start;
@@ -165,47 +165,28 @@ begin
 end;
 
 procedure TForm1.Button2Click(Sender: TObject);
+var
+   i : Integer;
 
 begin
    mmo3.Clear;
 
-    TThread.CreateAnonymousThread( procedure
-    var
-    i, j : Integer;
+    for I := 0 to Pred(ListaEmp.Count) do
     begin
-       j := Round( Pred(ListaEmp.Count) / 2) + 1;
-       for I := 0 to j do
-       begin
            if ListaEmp.TryGetValue(i,Emp) then
               if not ListaSefaz.TryGetValue(Emp.ie,Sefaz) then
               begin
-                 mmo3.Lines.Add('a -' +IntToStr(Emp.id) + ' - ' + Emp.IE + ' - ' + Emp.CNPJ);
+                 mmo3.Lines.Add('a -' +Emp.id.ToString + ' - ' + Emp.IE + ' - ' + Emp.CNPJ);
               end;
-       end;
+    end;
 
-   end).Start;
-
-     TThread.CreateAnonymousThread( procedure
-    var
-    k, l : Integer;
-    begin
-
-       for l :=(Round( (Pred(ListaEmp.Count) / 2)) + 2) to Pred(ListaEmp.Count) do
-       begin
-           if ListaEmp.TryGetValue(l,Emp) then
-              if not ListaSefaz.TryGetValue(Emp.ie,Sefaz) then
-              begin
-                 mmo3.Lines.Add('b - ' +IntToStr(Emp.id) + ' - ' + Emp.IE + ' - ' + Emp.CNPJ);
-              end;
-       end;
-
-   end).Start;
+    ShowMessage(i.ToString);
 
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
-    ListaEmp := TDictionary<integer,TEmpresa>.create;
+    ListaEmp := TDictionary<Integer,TEmpresa>.create;
     ListaSefaz := TDictionary<string,TSefaz>.create;
 end;
 
